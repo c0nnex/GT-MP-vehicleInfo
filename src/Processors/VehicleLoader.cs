@@ -13,7 +13,7 @@ namespace GT_MP_vehicleInfo.Processors
         public static void LoadVehicles()
         {
 
-            string[] files = Directory.GetFiles(Path.Combine(Main.BasePath, "vehiclemeta/"), "*.meta");
+            string[] files = Directory.GetFiles(Path.Combine(CarInfoGen.BasePath, "vehiclemeta/"), "*.meta");
 
             List<XElement> elements = new List<XElement>();
             
@@ -39,7 +39,7 @@ namespace GT_MP_vehicleInfo.Processors
             foreach (var element in elements)
             {
                 
-                Main.Storage.Add(new VehicleData
+                CarInfoGen.Storage.Add(new VehicleData
                 {
                     name = element.Element("modelName").Value
                 }, element);

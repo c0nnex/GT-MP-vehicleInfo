@@ -10,7 +10,7 @@ namespace GT_MP_vehicleInfo.Processors
 
         public static void Process()
         {
-            foreach (var vehicleData in Main.Storage.vehicleStorage.Values)
+            foreach (var vehicleData in CarInfoGen.Storage.vehicleStorage.Values)
             {
                 CleanUpWheels(vehicleData);
                 RemoveEmptyMods(vehicleData);

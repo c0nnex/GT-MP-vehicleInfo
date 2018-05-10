@@ -26,7 +26,7 @@ namespace GT_MP_vehicleInfo.Processors
             settings.Formatting = Formatting.None;
                 
             // Normal, with translation
-            OutputToJson(settings, "-" + Main.languageCode + ".full");
+            OutputToJson(settings, "-" + CarInfoGen.languageCode + ".full");
                 
             // Smaller, without translation
             settings.ContractResolver = new NoLocalizationResolver();
@@ -43,20 +43,20 @@ namespace GT_MP_vehicleInfo.Processors
 
         private static void OutputSeperateVehicles()
         {
-            foreach (var entry in Main.Storage.vehicleStorage)
+            foreach (var entry in CarInfoGen.Storage.vehicleStorage)
             {
-                Process(@"output/vehicleInfo-" + Main.languageCode + "/" + entry.Key + ".json", entry.Value);
+                Process(@"output/vehicleInfo-" + CarInfoGen.languageCode + "/" + entry.Key + ".json", entry.Value);
             }
             
             // COMPRESS FILES
-            var zipfile = Main.GetPath("output/vehicleInfo-" + Main.languageCode + ".zip");
+            var zipfile = CarInfoGen.GetPath("output/vehicleInfo-" + CarInfoGen.languageCode + ".zip");
             if(File.Exists(zipfile)) File.Delete(zipfile);
-            System.IO.Compression.ZipFile.CreateFromDirectory(Main.GetPath("output/vehicleInfo-" + Main.languageCode + "/"), zipfile);
+            System.IO.Compression.ZipFile.CreateFromDirectory(CarInfoGen.GetPath("output/vehicleInfo-" + CarInfoGen.languageCode + "/"), zipfile);
         }
         
         private static void OutputToJson(JsonSerializerSettings settings, string extension)
         {
-            Process(@"output/vehicleInfo" + extension + ".json", Main.Storage.vehicleStorage, settings);
+            Process(@"output/vehicleInfo" + extension + ".json", CarInfoGen.Storage.vehicleStorage, settings);
         }
         
         public static void Process(string path, object data, JsonSerializerSettings settings = null)
@@ -66,11 +66,11 @@ namespace GT_MP_vehicleInfo.Processors
             
             try
             {
-                File.WriteAllText(Main.GetPath(path, true), payload);
+                File.WriteAllText(CarInfoGen.GetPath(path, true), payload);
             }
             catch (IOException e)
             {
-                Console.Error("AN ERROR OCCURED: " + e.Message);
+                CarInfoGen.LogIt("AN ERROR OCCURED: " + e.Message);
             }
             
         }

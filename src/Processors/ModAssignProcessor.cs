@@ -11,12 +11,12 @@ namespace GT_MP_vehicleInfo.Processors
 
         public static void Process()
         {
-            var vehicles = Main.Storage.vehicleStorage;
+            var vehicles = CarInfoGen.Storage.vehicleStorage;
             foreach (var vehicle in vehicles.Values)
             {
                 try
                 {
-                    var path = Path.Combine(Main.BasePath, "gen_vdata/" + vehicle.name + ".json");
+                    var path = Path.Combine(CarInfoGen.BasePath, "gen_vdata/" + vehicle.name + ".json");
                     if (!File.Exists(path)) continue;
 
                     var cache = JsonConvert.DeserializeObject<VehicleCache>(File.ReadAllText(path));
@@ -32,7 +32,7 @@ namespace GT_MP_vehicleInfo.Processors
                 }
                 catch (Exception e)
                 {
-                    GTA.Console.Error("FEHLER BEI: " + vehicle.name);
+                   CarInfoGen.LogIt("FEHLER BEI: " + vehicle.name);
                 }
 
             }

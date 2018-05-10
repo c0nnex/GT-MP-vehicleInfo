@@ -3,19 +3,30 @@ using System.Windows.Forms;
 using GTA;
 using GTA.UI;
 using GT_MP_vehicleInfo.Processors;
+using NLog;
 
 namespace GT_MP_vehicleInfo
 {
-    public class Main : Script
+    public class CarInfoGen : Script
     {
-
-        public static readonly string BasePath = @"scripts/vehicleinfo/";
+        public static Logger Logger = LogManager.GetCurrentClassLogger();
+        public static readonly string BasePath = @"N:\gt-mp\bin\scripts\vehicleinfo";
         public static readonly Storage Storage = new Storage();
-        public static string languageCode = "";
+        public static string languageCode = "de";
+        public static CarInfoGen Instance;
 
-        public Main()
-        {  
-            this.KeyUp += OnKeyUp;
+        public CarInfoGen()
+        {
+            LogIt("~y~Loading...");
+            LogIt(Path.Combine(CarInfoGen.BasePath, "vehiclemeta/"));
+            KeyUp += OnKeyUp;
+            Tick += CarInfoGen_Tick;
+            Instance = this;
+        }
+
+        private void CarInfoGen_Tick(object sender, System.EventArgs e)
+        {
+            LogIt("TICK");
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)
@@ -36,11 +47,12 @@ namespace GT_MP_vehicleInfo
                     Game.Player.Character.Heading);
                 veh.PlaceOnGround();
             }*/
+            LogIt("~y~Keyup ... "+e.KeyCode.ToString());
             if (e.KeyCode == Keys.NumPad1)
             {
                 if (string.IsNullOrEmpty(languageCode)) languageCode = Game.GetUserInput("de");
                 
-                Notification.Show("~y~Starting...");
+                LogIt("~y~Starting...");
                 
                 VehicleLoader.LoadVehicles();
                 ModAssignProcessor.Process();
@@ -51,8 +63,12 @@ namespace GT_MP_vehicleInfo
                 OutputProcessor.OutputVehicleInfo();
                
                 
-                Notification.Show("~g~Finished!");
+                LogIt("~g~Finished!");
             }
+        }
+        public static void LogIt(string msg)
+        {
+            Logger.Info(msg);
         }
         
         public static string GetPath(string path, bool create = false)

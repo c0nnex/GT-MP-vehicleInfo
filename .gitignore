@@ -352,5 +352,7 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+libs/
+scripts/
 
 # End of https://www.gitignore.io/api/jetbrains,visualstudio

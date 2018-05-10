@@ -8,7 +8,7 @@ namespace GT_MP_vehicleInfo.Processors
 
         public static void Process()
         {
-            foreach (var vehicle in Main.Storage.vehicleStorage.Values)    
+            foreach (var vehicle in CarInfoGen.Storage.vehicleStorage.Values)    
             {
                 ProcessVehicle(vehicle);
             }
